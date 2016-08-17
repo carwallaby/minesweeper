@@ -10,10 +10,9 @@ var mineCoordinates = [];
 // elements
 var $board = $('#game-board'),
     $new = $('#new-game'),
-    $help = $('#help'),
-    $options = $('#options'),
     $flag = $('#flag-mode'),
-    $statusText = $('#status-text');
+    $statusText = $('#status-text'),
+    $status = $('#game-status');
 
 // utility -------------------------
 
@@ -185,6 +184,7 @@ function initGame() {
     $flag.removeClass('selected');
     flagsPlaced = 0;
     unclicked = totalRows * totalCols;
+    $status.removeClass('winner');
     $statusText.text(totalMines + ' remaining.');
     // set up click handler on game tiles
     $('.game-tile').click(function() {
@@ -253,6 +253,7 @@ function handleClick(tile) {
         tile.removeClass('button-3d').addClass('flat');
         $('.game-tile').unbind('click').unbind('contextmenu');
         $statusText.text('you win!');
+        $status.addClass('winner');
     }
 }
 
@@ -268,6 +269,7 @@ function revealTile(tile) {
         $statusText.text((totalMines - flagsPlaced) + ' remaining.');
     }
     if (touchingMineCount > 0) {
+        tile.addClass('touches-' + touchingMineCount);
         tile.append('<span>' + touchingMineCount + '</span>');
     } else {
         handleSafeTileClick(coordinates);
