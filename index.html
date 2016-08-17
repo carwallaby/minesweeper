@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>minesweeper</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <div id="game-container">
+            <div id="game-header" class="gray-3d toolbar">
+                <p id="title">minesweeper.</p>
+                <div id="new-game" class="button-3d">
+                    <span>new</span>
+                </div>
+                <div id="help" class="button-3d">
+                    <span>?</span>
+                </div>
+            </div>
+            <div id="game-board"></div>
+            <div id="game-footer" class="gray-3d toolbar">
+                <div id="game-status" class="gray-3d-inset">
+                    <span id="status-text"></span>
+                </div>
+                <div id="options" class="button-3d">
+                    <span>options</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
