@@ -3,7 +3,7 @@ var totalRows = 9,
     totalCols = 9,
     totalMines = 10;
 // user variables
-var flagsPlaced, unclicked;
+var flagsPlaced, unclicked, flagMode;
 // 2-dimensional array of mine coordinates
 var mineCoordinates = [];
 
@@ -12,6 +12,7 @@ var $board = $('#game-board'),
     $new = $('#new-game'),
     $help = $('#help'),
     $options = $('#options'),
+    $flag = $('#flag-mode'),
     $statusText = $('#status-text');
 
 // utility -------------------------
@@ -180,13 +181,19 @@ function populateMineCoordinates() {
 function initGame() {
     populateBoard();
     populateMineCoordinates();
+    flagMode = false;
+    $flag.removeClass('selected');
     flagsPlaced = 0;
     unclicked = totalRows * totalCols;
     $statusText.text(totalMines + ' remaining.');
     // set up click handler on game tiles
     $('.game-tile').click(function() {
         var tile = $(this);
-        handleClick(tile);
+        if (flagMode) {
+            toggleFlag(tile);
+        } else {
+            handleClick(tile);
+        }
     });
     // set up flag handler
     $('.game-tile').bind('contextmenu', function(e) {
@@ -254,6 +261,12 @@ function revealTile(tile) {
     tile.removeClass('button-3d').addClass('flat');
     var coordinates = getTileCoordinates(tile);
     var touchingMineCount = getTouchingMineCount(coordinates);
+    // update flag count if a flagged tile is revealed
+    if (tile.hasClass('flagged')) {
+        tile.removeClass('flagged');
+        flagsPlaced--;
+        $statusText.text((totalMines - flagsPlaced) + ' remaining.');
+    }
     if (touchingMineCount > 0) {
         tile.append('<span>' + touchingMineCount + '</span>');
     } else {
@@ -266,6 +279,16 @@ function revealTile(tile) {
 // start a new game
 $new.click(function() {
     initGame();
+});
+
+// toggle flag mode
+$flag.click(function() {
+    $(this).toggleClass('selected');
+    if (flagMode) {
+        flagMode = false;
+    } else {
+        flagMode = true;
+    }
 });
 
 // init -------------------------
